@@ -13,6 +13,7 @@ from urllib.parse import quote
 
 from .catalog import is_document, read_yaml
 from .phone_catalog import phone_catalog
+from .phone_terms import load_terms
 from .layout import PHONE_CATALOG, checksum_name, managed_path, reader_destination
 from .offline_layout import TEMPLATES, emergency_routes, layout, render
 from .resources import resource_asset_ids
@@ -111,6 +112,22 @@ def _canonical_collections():
     return read_yaml(registry)["resources"]
 
 
+# Catalog descriptions mix what a book covers with notes on how its file was obtained.
+_PROVENANCE = re.compile(
+    r"\b(?:original|publishers?|pdfs?|retain\w*|sha-?\d*|download\w*|archive\w*|pin\w*|snapshot\w*|verif\w*|"
+    r"licen[sc]e\w*|notices?|edition|export\w*|upstream|acquisition|certif\w*|untested|bundled|zim|html\d?|epub|"
+    r"conver\w+|pages?|unmodified|published|evidence|hash\w*|urls?|api|requires?|reader|kiwix|packag\w*|corpus|"
+    r"stable|separate\w*|supplied|offered|credits?|byte\w*|files?|chapters|front matter|back-matter|mutable|"
+    r"recorded|checked|parsed|complete|finished|physical|offline)\b", re.I)
+
+
+def reader_summary(description) -> str:
+    """The sentences of a catalog description that say what the book covers."""
+    kept = " ".join(sentence.strip() for sentence in re.split(r"(?<=[.!?])\s+", description or "")
+                    if sentence.strip() and not _PROVENANCE.search(sentence))
+    return kept if len(kept) >= 25 else ""
+
+
 def navigation_assets(assets, collections=None, topics=None) -> dict:
     """Compute each file's category and grouping once, before rendering."""
     collections = _canonical_collections() if collections is None else collections
@@ -123,6 +140,7 @@ def navigation_assets(assets, collections=None, topics=None) -> dict:
         for identity in resource_asset_ids(collection):
             owners.setdefault(identity, (category, collection["id"], importance))
     books = book_chapters(assets)
+    terms = load_terms()
     result = {}
     for asset in assets:
         identity = asset["id"]
@@ -135,7 +153,9 @@ def navigation_assets(assets, collections=None, topics=None) -> dict:
                             "first_aid": (asset.get("category") == "first_aid" or identity in FIRST_RESPONSE or
                                           asset.get("title", "").lower().endswith(" first aid")),
                             "book": books.get(identity), "topics": (topics or {}).get(identity, []), "kind": kind,
-                            "publisher": asset.get("publisher"), "attribution": asset.get("attribution")}
+                            "publisher": asset.get("publisher"), "attribution": asset.get("attribution"),
+                            "summary": reader_summary(asset.get("description")), "labels": list(asset.get("tags") or []),
+                            "terms": terms.get(asset.get("sha256"), [])}
         archive_kind = next((label for prefix, label in _ARCHIVE_KINDS.items()
                              if asset.get("format") == "zim" and PurePosixPath(asset["destination"]).name.startswith(prefix)), None)
         if archive_kind:
@@ -221,6 +241,40 @@ def _grouped(rows, metadata, category):
     return sorted(output, key=lambda row: (first_response(row), importance(row), *_order(row)))
 
 
+def _phone_tasks(tasks, documents, meta):
+    """Each urgent task with every guide present on the drive, in order of preference."""
+    rows = {row["id"]: row for row in documents}
+    result = []
+    for task, keywords, candidates in tasks:
+        guides, lookups = [], []
+        for identity, *details in candidates:
+            fragment, hint, articles = details + ["", "", []][len(details):]
+            names = [name for name, _ in articles]
+            lookups.extend(names)
+            row = rows.get(identity)
+            if not row:
+                continue
+            page = re.fullmatch(r"#page=(\d+)", fragment)
+            book = meta[identity].get("book")
+            guides.append({"title": row["title"], "short": book["chapter"] if book else row["title"], "path": row["path"],
+                           "format": row["format"], "page": page[1] if page else "", "hint": hint, "articles": names})
+        result.append({"task": task, "keywords": keywords, "guides": guides, "lookups": lookups})
+    return result
+
+
+def _phone_row(row, meta):
+    """One catalog entry: a document, or a book whose chapters are separate files."""
+    data = meta.get(row["id"], {})
+    topics = [title for _, title in row.get("topics", [])]
+    chapters = [{"title": chapter["title"], "path": chapter["path"], "format": chapter["format"],
+                 "terms": meta.get(chapter["id"], {}).get("terms") or []} for chapter in row.get("chapters", [])]
+    return {"title": row["title"], "path": row["path"], "format": row.get("format") or "", "kind": row["kind"],
+            "bytes": row["bytes"], "publisher": (row.get("publisher") if chapters else data.get("publisher")) or "",
+            "summary": "" if chapters else data.get("summary") or "", "topics": topics, "chapters": chapters,
+            "terms": [] if chapters else data.get("terms") or [],
+            "labels": topics if chapters else list(dict.fromkeys([*data.get("labels", []), *topics]))}
+
+
 def _reader_files(assets, inventory, scripts, shared, drive=None):
     report = inventory.get("navigation") or {}
     config = reader_payload(assets, topics=report.get("reader_topics"))
@@ -231,12 +285,14 @@ def _reader_files(assets, inventory, scripts, shared, drive=None):
     readers = [{"label": label, "path": row["path"], "href": row["href"]}
                for folder, label, _ in markup["readers"] for row in sorted(files, key=_order)
                if row["path"].startswith("LIBRARY/" + folder)]
-    phone = []
+    phone, articles = [], []
     for volume in inventory.get("phone_volumes", []):
         path = PHONE_DESTINATION + volume["file"]
         phone.append({"id": "wikimed-phone-" + volume["file"], "title": "WikiMed: " + volume["title"],
                       "path": checksum_name(path), "href": _href(path, "START_HERE.html"),
                       "kind": "PDF", "format": "pdf", "bytes": volume.get("bytes", 0)})
+        articles.extend({"title": article["title"], "volume": volume["title"], "path": checksum_name(path)}
+                        for article in volume.get("articles", []))
     tasks = emergency_routes(documents)
     missing = sorted([{"id": row.get("id") or "", "title": row.get("title") or row.get("id") or "",
                        "reason": row.get("reason") or row.get("unresolved_reason") or ""}
@@ -291,7 +347,9 @@ def _reader_files(assets, inventory, scripts, shared, drive=None):
         pages[f"INDEX/c-{identity}.js"] = _script("OWLReaderData", identity, grouped)
         if not grouped:
             continue
-        catalog_groups.append((identity, category["name"], sorted(members, key=_order)))
+        catalog_groups.append({"id": identity, "name": category["name"], "blurb": category["blurb"],
+                               "unit": category["unit"], "color": category["light"], "icon": category.get("icon"),
+                               "rows": [_phone_row(row, meta) for row in grouped]})
         count = amount(len(grouped), category["unit"])
         icon = render(markup["static_icon"], icon=_text(category["icon"])) if category.get("icon") else ""
         rows = []
@@ -303,7 +361,7 @@ def _reader_files(assets, inventory, scripts, shared, drive=None):
             rows.append(static_row(title, "" if row["kind"] == "PDF" else row["kind"], row["path"], chapters))
         shelves.append(render(markup["static_section"], id=identity, icon=icon, name=_text(category["name"]), count=count,
                               blurb=_text(category["blurb"]), rows="".join(rows)))
-    pages[PHONE_CATALOG] = phone_catalog(catalog_groups, drive)
+    pages[PHONE_CATALOG] = phone_catalog(catalog_groups, drive, _phone_tasks(markup["tasks"], documents, meta), articles)
     if shelves:
         static.append(render(markup["static_shelves"], shelves="".join(shelves)))
     if any(row["format"] == "zim" for row in documents):

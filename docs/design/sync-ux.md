@@ -490,10 +490,17 @@ nested **Show chapters** disclosure. Each file has a folder trail and a
 separately selectable filename. Drives with encyclopedias also show Kiwix
 instructions. The reader replaces this page when its scripts load.
 
-The companion `START_HERE_FOR_IPHONES.pdf` sits beside the HTML entry. Its
-contents links navigate inside the catalog, and its PDF titles use relative
-cross-document links. Preview can search the catalog's text independently of
-Files search. Both builders assemble it from their completed reading inventory.
+The companion `START_HERE_FOR_IPHONES.pdf` sits beside the HTML entry. It is
+the iPhone's start page: one screen with a tile for each urgent task and rows
+for subjects, topics and WikiMed articles, then a page for each of those. A
+blue title opens its PDF through a Files link when the drive's volume UUID is
+known, and switches to Files otherwise. Preview's search is the only search an
+iPhone has, so the page carries what a reader might type: each task's search
+words, each book's topics and summary, up to 16 distinctive words from inside
+each book or chapter (`catalog/phone-terms.json`), and every WikiMed article
+title. Sections follow the order a result should rank in: urgent tasks, topics,
+subjects, articles. Both builders assemble it from their completed reading
+inventory, and a parity test compares the text and links of every page.
 
 ### 5.4 Pages that go away
 

@@ -96,6 +96,23 @@ class BuilderParityTests(unittest.TestCase):
             def catalog_text(root):
                 return [" ".join(page.extract_text().split()) for page in PdfReader(root / PHONE_CATALOG).pages]
             self.assertEqual(catalog_text(native), catalog_text(web))
+            def catalog_links(root):
+                """Each link's place on its page, with its URL or the page a jump lands on."""
+                reader = PdfReader(root / PHONE_CATALOG)
+                numbers = {page.indirect_reference.idnum: index for index, page in enumerate(reader.pages)}
+                links = []
+                for page in reader.pages:
+                    row = []
+                    for ref in page.get("/Annots") or []:
+                        note = ref.get_object()
+                        dest = note.get("/Dest")
+                        if dest is not None and not isinstance(dest, list):
+                            dest = reader.named_destinations[str(dest)].dest_array
+                        row.append((tuple(round(float(value), 2) for value in note["/Rect"]),
+                                    str(note["/A"]["/URI"]) if dest is None else numbers[dest[0].idnum]))
+                    links.append(sorted(row, key=repr))
+                return links
+            self.assertEqual(catalog_links(native), catalog_links(web))
             reader_paths.remove(PHONE_CATALOG)
             for key in sorted(reader_paths):
                 with self.subTest(reader_file=key):

@@ -6,7 +6,7 @@ import {once} from "node:events";
 import {test} from "node:test";
 import {archiveJoinLimitReached, browserSelection, buildLibrary as runBuild, MANIFEST, partLayout, readBuild, recordPause} from "../web/builder.mjs";
 import {assembleLibrary} from "../web/offline.mjs";
-import {measureFreeSpace, removeFile, writeFile} from "../web/drive.mjs";
+import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
 import {archiveDriveOptions, clock, completionState, estimateLabelCapacity, prepareDownloadSources, probesCapacity, relayLimitMessage,
@@ -988,7 +988,7 @@ test("an unknown filesystem keeps parts until answered and 4 GiB write errors ha
     "This drive can’t hold files over 4 GB. OWL kept that encyclopedia in parts.");
 });
 
-test("a drive ID saved in BUILD_INFO.json links iPhone titles while the picked folder keeps its name", async () => {
+test("a saved drive ID links iPhone titles while the picked folder keeps its name", async () => {
   const {savedPhoneDrive} = await import("../web/phone-catalog.mjs");
   const volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615";
   assert.deepEqual(savedPhoneDrive({path: volume, folder: "KINGSTON"}, "KINGSTON"), {path: volume, folder: "KINGSTON"});
@@ -1004,29 +1004,23 @@ test("a drive ID saved in BUILD_INFO.json links iPhone titles while the picked f
   const options = {assets: [water], routes: {water: ["https://example.test/water"]},
     navigation: readerNavigation({water: {category: "shelter"}}), fetchFile: async () => new Response(body)};
   await buildLibrary(drive, options);
-  const read = async path => (await (await drive.file(path)).getFile()).text();
-  const info = JSON.parse(await read("LIBRARY/BUILD_INFO.json"));
-  assert.equal(info.iphone_drive, undefined);
   const {PDFDocument, PDFName} = await import("../web/vendor/pdf-lib/pdf-lib.mjs");
   const targets = async () => {
     const catalog = await PDFDocument.load(await (await (await drive.file("START_HERE_FOR_IPHONES.pdf")).getFile()).arrayBuffer());
-    return catalog.getPages().flatMap(page => page.node.Annots().asArray().map(ref => catalog.context.lookup(ref).get(PDFName.of("A"))))
-      .filter(link => link.get(PDFName.of("S")).toString() === "/URI").map(link => link.get(PDFName.of("URI")).decodeText());
+    return [...new Set(catalog.getPages().flatMap(page => page.node.Annots().asArray()
+      .map(ref => catalog.context.lookup(ref).get(PDFName.of("A")))).filter(Boolean)
+      .map(link => link.get(PDFName.of("URI")).decodeText()))];
   };
   assert.deepEqual(await targets(), ["shareddocuments://"]);
+  // The Python builder on a Mac leaves the record beside the build records. A later Sync reads it and never writes it.
   for (const [folder, expected] of [["drive", "shareddocuments:///private/var/mobile/Library/LiveFiles/" +
       "com.apple.filesystems.userfsd/" + volume + "/LIBRARY/" + water.destination + "?open"], ["KINGSTON", "shareddocuments://"]]) {
-    // As the Python builder leaves a drive: the record in BUILD_INFO.json, covered by SHA256SUMS.txt, and no browser record.
-    await removeFile(drive, MANIFEST);
-    const saved = JSON.stringify({...info, iphone_drive: {path: volume, folder}});
-    await writeFile(drive, "LIBRARY/BUILD_INFO.json", saved);
-    const sums = (await read("LIBRARY/SHA256SUMS.txt")).replace(/^[0-9a-f]{64}(?=  LIBRARY\/BUILD_INFO\.json$)/m,
-      createHash("sha256").update(saved).digest("hex"));
-    await writeFile(drive, "LIBRARY/SHA256SUMS.txt", sums);
+    const saved = JSON.stringify({path: volume, folder});
+    await writeFile(drive, "LIBRARY/.owl/iphone-drive.json", saved);
     await buildLibrary(drive, {...options, resume: true});
     assert.deepEqual(await targets(), [expected]);
-    assert.deepEqual(JSON.parse(await read("LIBRARY/BUILD_INFO.json")).iphone_drive,
-      folder === "drive" ? {path: volume, folder} : undefined);
+    assert.equal(await (await (await drive.file("LIBRARY/.owl/iphone-drive.json")).getFile()).text(), saved);
+    assert.doesNotMatch(await (await (await drive.file("LIBRARY/SHA256SUMS.txt")).getFile()).text(), /iphone-drive/);
   }
 });
 
@@ -1065,11 +1059,22 @@ test("the static reader lists completed urgent files and reports omissions", asy
   assert.match(start, /<a href="LIBRARY\/BOOKS\/water.pdf">Make drinking water safer<\/a>.*Water guide.*LIBRARY › BOOKS<\/span><span class="filename">water.pdf<\/span>/);
   const {PDFDocument, PDFName} = await import("../web/vendor/pdf-lib/pdf-lib.mjs");
   const catalog = await PDFDocument.load(await (await (await drive.file("START_HERE_FOR_IPHONES.pdf")).getFile()).arrayBuffer());
-  const links = catalog.getPages().flatMap(page => page.node.Annots().asArray().map(ref =>
-    catalog.context.lookup(ref).get(PDFName.of("A"))));
+  const notes = catalog.getPages().map(page => page.node.Annots().asArray().map(ref => catalog.context.lookup(ref)));
+  const uris = notes.flat().map(note => note.get(PDFName.of("A"))).filter(Boolean)
+    .map(action => action.get(PDFName.of("URI")).decodeText());
   // A browser cannot read the drive's volume UUID, so each title switches to Files.
-  assert.deepEqual(links.map(link => [link.get(PDFName.of("S")).toString(), link.get(PDFName.of("URI"))?.decodeText()])
-    .filter(([kind]) => kind === "/URI"), [["/URI", "shareddocuments://"], ["/URI", "shareddocuments://"]]);
+  // Three urgent tasks have a guide, listed under Urgent help; the two files are listed again under their subjects.
+  assert.deepEqual(uris, Array(5).fill("shareddocuments://"));
+  // Without the UUID, an urgent tile jumps to its guide's folders, and every jump lands on a page of this file.
+  const pages = catalog.getPages().map(page => page.ref);
+  const jumps = notes.map(page => page.map(note => note.get(PDFName.of("Dest"))).filter(Boolean)
+    .map(dest => pages.indexOf(dest.get(0)) + 1));
+  assert.deepEqual(jumps[0], [pages.length, 3, 3, 3, 2, pages.length]);
+  assert.ok(jumps.flat().every(number => number > 0));
+  // Desktop viewers list the same sections in their sidebar.
+  const outline = catalog.catalog.lookup(PDFName.of("Outlines"));
+  assert.equal(outline.get(PDFName.of("Count")).asNumber(), 6);
+  assert.equal(catalog.context.lookup(outline.get(PDFName.of("First"))).get(PDFName.of("Title")).decodeText(), "What do you need?");
   const {filesLink} = await import("../web/phone-catalog.mjs");
   const {phone_catalog: spec} = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
   // Encoded the same way as the Python builder.

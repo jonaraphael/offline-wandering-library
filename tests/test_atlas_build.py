@@ -149,35 +149,34 @@ class AtlasBuildTests(AtlasBuildFixture):
         self.assertEqual(refreshed["support_missing"], [app])
 
     def test_saved_iphone_drive_links_the_phone_catalog_while_the_folder_keeps_its_name(self):
+        from unittest.mock import patch
         from pypdf import PdfReader
         self.run_build(navigation_dir=self.nav)
-        path = self.library / "BUILD_INFO.json"
+        saved = self.library / ".owl/iphone-drive.json"
         volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615"
 
         def opens_books():
-            # The fixture is a text file, so the catalog's intro shows which link kind it would use.
+            # The fixture is a text file, so the first screen's hint shows which link kind the catalog uses.
             text = PdfReader(self.drive / "START_HERE_FOR_IPHONES.pdf").pages[0].extract_text()
-            self.assertNotEqual("to read the book" in text, "to switch to Files" in text)
-            return "to read the book" in text
+            self.assertNotEqual("Blue titles open the book" in text, "Blue titles switch to Files" in text)
+            return "Blue titles open the book" in text
 
-        self.assertNotIn("iphone_drive", json.loads(path.read_bytes()))
+        # A temporary folder has no volume UUID to read, so nothing is saved and titles switch to Files.
+        self.assertFalse(saved.exists())
         self.assertFalse(opens_books())
         for folder, kept in (("drive", True), ("OTHER", False)):
-            info = json.loads(path.read_bytes())
-            info["iphone_drive"] = {"path": volume, "folder": folder}
-            path.write_text(json.dumps(info), encoding="utf-8")
-            self.reseal_checksums()
+            saved.write_text(json.dumps({"path": volume, "folder": folder}), encoding="utf-8")
             self.atlas(metadata_only=True)
-            self.assertEqual(json.loads(path.read_bytes()).get("iphone_drive"), {"path": volume, "folder": folder} if kept else None)
             self.assertEqual(opens_books(), kept)
-        # A full rebuild keeps a matching record too.
-        info = json.loads(path.read_bytes())
-        info["iphone_drive"] = {"path": volume, "folder": "drive"}
-        path.write_text(json.dumps(info), encoding="utf-8")
-        self.reseal_checksums()
-        self.run_build(navigation_dir=self.nav)
-        self.assertEqual(json.loads(path.read_bytes())["iphone_drive"], {"path": volume, "folder": "drive"})
+            self.assertEqual(json.loads(saved.read_text(encoding="utf-8")), {"path": volume, "folder": folder})
+        # A UUID read from the drive replaces a saved one, in a full build as in a refresh.
+        other = "0D0C0B0A-0000-3000-8000-000000000000"
+        with patch("owl.phone_catalog.drive_path", return_value=other):
+            self.run_build(navigation_dir=self.nav)
+        self.assertEqual(json.loads(saved.read_text(encoding="utf-8")), {"path": other, "folder": "drive"})
         self.assertTrue(opens_books())
+        self.assertNotIn("iphone_drive", json.loads((self.library / "BUILD_INFO.json").read_bytes()))
+        self.assertNotIn("iphone-drive", (self.library / "SHA256SUMS.txt").read_text(encoding="utf-8"))
         self.check_verified()
 
     def test_metadata_refresh_resume_keeps_verification_mode_and_publishes_matching_search(self):

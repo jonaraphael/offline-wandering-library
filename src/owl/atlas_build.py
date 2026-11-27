@@ -19,7 +19,7 @@ from .content_policy import require_content_policy
 from .layout import checksum_name, content_root, logical_name, managed_path
 from .verify import split_inventory
 from .navigation import READER_GENERATION, SHARED_SEARCH, generate_navigation
-from .phone_catalog import phone_drive
+from .phone_catalog import phone_drive, save_phone_drive, saved_phone_drive
 from .runtime import file_lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, safe_path, sha256_file, validate_relative
 
@@ -493,10 +493,8 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             job['inventory'], job['build_info'] = inventory, info
             if info.get("built_at"):
                 inventory["syncedAt"] = info["built_at"]
-            iphone = phone_drive(target.parent, info.get("iphone_drive"))
-            info = {key: value for key, value in info.items() if key != "iphone_drive"} | (
-                {"iphone_drive": iphone} if iphone else {})
-            job["build_info"] = info
+            iphone = phone_drive(target.parent, saved_phone_drive(target))
+            save_phone_drive(target, iphone)
             pages = generate_navigation(target, assets, inventory, discovery_report, write=False,
                                         search_outputs=discovery_pages, drive=iphone and iphone["path"])
             pages.update(atlas_pages)

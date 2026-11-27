@@ -18,6 +18,7 @@ import tempfile
 
 from owl.atlas_import import import_sections
 from owl.catalog import load_catalog, load_profiles, resolve_content
+from owl.phone_terms import TERMS_FILE, compile_terms, encode_terms
 from owl.safety import atomic_write, sha256_file
 from owl.search_model import Potion, UPSTREAM, WEIGHT_CHUNK_BYTES
 from owl.search_shards import (COUNT_PER_PART, LICENSE_FILE, MODEL_FILE, MODEL_PART, REPO_LIMIT, ROOT, SCHEMA,
@@ -527,6 +528,9 @@ def main(argv=None):
                     for pool, number, pin in shard_chunks(manifest, digest, shard)}
         for relative in retired_paths - retained:
             (output / relative).unlink(missing_ok=True)
+    if output.resolve() == SEARCH_ROOT.resolve():
+        # The iPhone start page lists each book's distinctive words from these shards.
+        atomic_write(TERMS_FILE, encode_terms(compile_terms(output)))
     return 0
 
 

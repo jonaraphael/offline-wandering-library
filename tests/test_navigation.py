@@ -107,37 +107,119 @@ class NavigationTests(unittest.TestCase):
         self.assertIn('href="CRITICAL/WATER/water%20%231.pdf"', pages['INVENTORY.html'])
         validate_links(self.target, {**pages, 'INVENTORY.json': ''})
 
-    def test_phone_catalog_links_only_installed_pdfs_at_their_final_locations(self):
-        name = "water #1 (2026).pdf"
-        water = self.asset("water", "Water & sanitation", "CRITICAL/WATER/" + name)
-        note = self.asset("note", "Water notes", "BOOKS/water.txt", format="txt")
-        pages = self.generate([water, note], unresolved=[{"id": "missing", "title": "Absent guide"}])
+    def phone_pages(self, pages):
+        """Each catalog page as its text and its links: the URL, or the number of the page a jump lands on."""
         pdf = PdfReader(BytesIO(pages[PHONE_CATALOG]), strict=True)
-        text = "\n".join(page.extract_text() for page in pdf.pages)
-        self.assertIn(name, text)
-        self.assertIn("LIBRARY › CRITICAL › WATER", text)
+        numbers = {page.indirect_reference.idnum: index + 1 for index, page in enumerate(pdf.pages)}
+        result = []
+        for page in pdf.pages:
+            links = []
+            for ref in page.annotations or []:
+                note = ref.get_object()
+                if "/A" in note:
+                    links.append(str(note["/A"]["/URI"]))
+                else:
+                    dest = note["/Dest"]
+                    dest = dest if isinstance(dest, list) else pdf.named_destinations[str(dest)].dest_array
+                    links.append(numbers[dest[0].idnum])
+            result.append((" ".join(page.extract_text().split()), links))
+        return result
+
+    def test_phone_catalog_opens_books_through_files_and_lists_what_search_needs(self):
+        name = "water #1 (2026).pdf"
+        water = self.asset("water", "Water & sanitation", "CRITICAL/WATER/" + name, tags=["boil water"],
+                           description="How to make water safe to drink. Original PDF retained without alteration.")
+        aid = self.asset("hesperian_en_wtnd_2025_10", "Where There Is No Doctor — 10 First aid", "BOOKS/WTND/10.pdf")
+        chapters = [self.asset(f"hesperian_en_wtnd_2025_{i}", f"Where There Is No Doctor — {i} Care", f"BOOKS/WTND/{i}.pdf")
+                    for i in (11, 12)]
+        note = self.asset("note", "Water notes", "BOOKS/water.txt", format="txt")
+        assets = [water, aid, *chapters, note]
+        inventory = {"assets": assets, "unresolved": [{"id": "missing", "title": "Absent guide"}],
+                     "navigation": {"reader_topics": {"water": [["safe-water", "Safe water"]]}},
+                     "phone_volumes": [{"file": "wikimed-emergencies.pdf", "title": "Emergencies", "bytes": 9,
+                                        "articles": [{"title": "Bleeding"}, {"title": "Choking"}]}]}
+        root = "shareddocuments:///private/var/mobile/Library/LiveFiles/com.apple.filesystems.userfsd/"
+        volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615"
+        aid_link = root + volume + "/LIBRARY/BOOKS/WTND/10.pdf?open"
+        water_link = root + volume + "/LIBRARY/CRITICAL/WATER/water%20%231%20%282026%29.pdf?open"
+        emergencies = root + volume + "/LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE/wikimed-emergencies.pdf?open"
+
+        # Without the drive's volume UUID, every title switches to Files and the filename stands alone to be copied.
+        plain = self.phone_pages(generate_navigation(self.target, assets, inventory, {}, write=False))
+        text = "\n".join(page for page, _ in plain)
+        self.assertEqual({link for _, links in plain for link in links if isinstance(link, str)}, {"shareddocuments://"})
+        self.assertIn("Blue titles switch to Files", plain[0][0])
+        self.assertIn(name + " LIBRARY › CRITICAL › WATER", text)
         self.assertIn("water.txt", text)
         self.assertNotIn("Absent guide", text)
-        category = pdf.pages[0].annotations[0].get_object()["/Dest"][0]
-        self.assertEqual(category, pdf.pages[1].indirect_reference)
-        actions = [ref.get_object()["/A"] for page in pdf.pages for ref in page.annotations or []
-                   if "/A" in ref.get_object()]
-        # Without the drive's volume UUID, a title switches to Files and the intro says to follow the folders.
-        self.assertEqual([(action["/S"], action["/URI"]) for action in actions], [("/URI", "shareddocuments://")])
-        self.assertIn("to switch to Files", text)
-        # With the UUID, a title opens the book through Files on an iPhone.
-        volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615"
-        linked = generate_navigation(self.target, [water, note], {"assets": [water, note]}, {}, write=False, drive=volume)
-        linked_pdf = PdfReader(BytesIO(linked[PHONE_CATALOG]))
-        links = [ref.get_object()["/A"] for page in linked_pdf.pages for ref in page.annotations or []
-                 if "/A" in ref.get_object()]
-        self.assertEqual([(link["/S"], link["/URI"]) for link in links], [("/URI",
-            "shareddocuments:///private/var/mobile/Library/LiveFiles/com.apple.filesystems.userfsd/" + volume +
-            "/LIBRARY/CRITICAL/WATER/water%20%231%20%282026%29.pdf?open")])
-        self.assertIn("to read the book", linked_pdf.pages[0].extract_text())
-        empty = PdfReader(BytesIO(self.generate([])[PHONE_CATALOG]))
-        self.assertEqual(len(empty.pages), 1)
-        self.assertFalse(empty.pages[0].annotations)
+
+        linked = self.phone_pages(generate_navigation(self.target, assets, inventory, {}, write=False, drive=volume))
+        home, links = linked[0]
+
+        def first(start):
+            """The number of the first page whose text starts this way."""
+            return next(number for number, (page, _) in enumerate(linked, 1) if page.startswith(start))
+
+        # Home: the search card, each urgent task with a guide on the drive, then the ways into the library.
+        self.assertIn("Blue titles open the book", home)
+        self.assertIn("Stop severe bleeding 10 First aid · page 6", home)
+        self.assertIn("Make drinking water safer Water & sanitation", home)
+        self.assertIn("Find or build shelter No guide on this drive", home)
+        help_page = len(linked)
+        self.assertEqual(links[0], help_page)
+        self.assertEqual(links[1:4], [aid_link, aid_link, water_link])
+        self.assertEqual(links[4:], [first("‹ Home Browse by subject"), first("‹ Home Topics A to Z"),
+                                     first("‹ Home Medical articles A to Z"), help_page])
+        self.assertEqual(first("‹ Home Browse by subject"), 2)
+        # Urgent help: the page to turn to, the words a person might type, and the WikiMed article when it is here.
+        urgent, urgent_links = linked[first("‹ Home Urgent help") - 1]
+        self.assertIn("Search words: bleeding, bleed, blood", urgent)
+        self.assertIn("Go to page 6", urgent)
+        self.assertIn("WikiMed: Bleeding In the WikiMed PDF “Emergencies”", urgent)
+        self.assertIn(emergencies, urgent_links)
+        # A topic leads straight to its book.
+        topics, topic_links = linked[first("‹ Home Topics A to Z") - 1]
+        self.assertIn("Safe water Water & sanitation", topics)
+        self.assertIn(water_link, topic_links)
+        # A subject page says what each book covers; other files show their folder in Files.
+        rows = "\n".join(page for page, _ in linked)
+        self.assertIn("How to make water safe to drink. Covers: boil water · Safe water LIBRARY › CRITICAL › WATER › " + name, rows)
+        self.assertNotIn("retained", rows)
+        self.assertIn(root + volume + "/LIBRARY/BOOKS", [link for _, links in linked for link in links])
+        # A book in three or more files gets its own page of chapters, each opening its file.
+        book = first("‹ Health Where There Is No Doctor")
+        row_page = next(number for number, (page, _) in enumerate(linked, 1)
+                        if "Where There Is No Doctor › Book, 3 chapters" in page)
+        self.assertIn(book, linked[row_page - 1][1])
+        self.assertEqual(linked[book - 1][1], [row_page, aid_link, root + volume + "/LIBRARY/BOOKS/WTND/11.pdf?open",
+                                               root + volume + "/LIBRARY/BOOKS/WTND/12.pdf?open"])
+        # Every WikiMed article is listed, so a search for a condition finds the volume that holds it.
+        articles = linked[first("‹ Home Medical articles A to Z") - 1][0]
+        self.assertIn("B Bleeding Emergencies C Choking Emergencies", articles)
+        self.assertIn("Open a book Tap a blue title, then tap Open.", linked[-1][0])
+
+        empty = self.phone_pages(self.generate([]))
+        self.assertEqual(len(empty), 2)
+        self.assertIn("There are no reading files on this drive.", empty[0][0])
+        self.assertEqual(empty[0][1], [2, 2])
+
+    def test_icon_paths_and_sizes_are_drawn_from_whole_numbers(self):
+        from owl.phone_catalog import _size, svg_segments
+        # A full circle drawn as two half-turn arcs ends where it began, in four quarter curves.
+        circle = svg_segments("M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z")
+        self.assertEqual([segment[0] for segment in circle], ["M", "C", "C", "C", "C", "Z"])
+        self.assertEqual([round(value, 6) for value in circle[2][-2:]], [12, 21])
+        self.assertEqual([round(value, 6) for value in circle[4][-2:]], [12, 3])
+        self.assertEqual(svg_segments("M4 20l8-8h2V4"), [("M", 4.0, 20.0), ("L", 12.0, 12.0), ("L", 14.0, 12.0), ("L", 14.0, 4.0)])
+        self.assertEqual([_size(value) for value in (999, 1_000, 5_603_996, 9_950_000, 14_400_000, 2_215_520_569)],
+                         ["", "1.0 KB", "5.6 MB", "10 MB", "14 MB", "2.2 GB"])
+
+    def test_reader_summary_keeps_only_what_a_book_covers(self):
+        from owl.navigation import reader_summary
+        self.assertEqual(reader_summary("First aid, rescue and preparedness. Original publication retained without alteration."),
+                         "First aid, rescue and preparedness.")
+        self.assertEqual(reader_summary("Complete finished PDF, 512 pages. Downloaded, parsed and SHA-256 checked; no conversion."), "")
+        self.assertEqual(reader_summary(None), "")
 
     @unittest.skipIf(os.name == "nt", "POSIX mount layout")
     def test_drive_path_uses_the_volume_uuid_that_macos_reports(self):

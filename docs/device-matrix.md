@@ -131,13 +131,16 @@ After refreshing the indexes, test both entry files in airplane mode.
 1. In the HTML preview, expand **Health**, then expand a book with **Show chapters**.
    Touch and hold a filename and copy it. Paste it into Files search and select
    the drive scope. If it returns no matches, open the displayed folders.
-2. From Files, open **START_HERE_FOR_IPHONES.pdf** in Preview. Use **Search** to
-   find a title and a filename. This searches the PDF's text on the phone.
-3. Tap a category and **Contents** to test navigation inside the PDF. Tap a blue
-   title, then **Open** in "Leave Preview and open this link?". Record whether
-   the book opens in Preview. If the drive is missing in Preview's Browse
-   screen, start from Files using **Open With → Preview**. Record the OS, drive
-   format, and viewer for each result.
+2. From Files, open **START_HERE_FOR_IPHONES.pdf** in Preview. Tap the
+   magnifying glass and search for `splint`, then for a title and a filename.
+   This searches the PDF's text on the phone. Record whether the yellow mark is
+   in view or under Preview's top bar.
+3. Tap **Home** at the top left, then a red urgent tile, then **Open** in "Leave
+   Preview and open this link?". Record whether the guide opens in Preview.
+   Repeat from **Browse by subject** with a book title and with a chapter of a
+   multi-part book. If the drive is missing in Preview's Browse screen, start
+   from Files using **Open With → Preview**. Record the OS, drive format, and
+   viewer for each result.
 
 Each blue title is a Files link:
 `shareddocuments:///private/var/mobile/Library/LiveFiles/com.apple.filesystems.userfsd/<volume UUID>/LIBRARY/…pdf?open`.
@@ -162,15 +165,26 @@ so renaming the drive keeps it and reformatting changes it.
 The Python builder reads the UUID with `diskutil` when it writes to a drive
 under `/Volumes`. A browser cannot read a volume UUID or a boot sector, and
 neither can the Python builder on Linux or Windows without raw device access.
-Both builders save the location in `LIBRARY/BUILD_INFO.json` as
-`iphone_drive: {"path": "<UUID>[/folders]", "folder": "<name of the folder holding LIBRARY>"}`
-and reuse it when they cannot read the UUID. A builder drops the saved location
-when the folder's name differs, so a library copied to a differently named
-drive stops linking to the original. A Windows drive root has no name to
-compare. A copy on a drive with the same name keeps the old UUID until the
-Python builder runs on a Mac. Without a location, each title links to a bare
-`shareddocuments://`, which switches to Files, and the intro says to follow the
-folders under the filename.
+It saves the location in `LIBRARY/.owl/iphone-drive.json` as
+`{"path": "<UUID>[/folders]", "folder": "<name of the folder holding LIBRARY>"}`.
+A builder that cannot read the UUID reuses that record. The file sits beside
+the builders' private records, outside `SHA256SUMS.txt`, so a browser Sync
+reads it without owning it and `owl copy` leaves it behind. A builder ignores
+the record when the folder's name differs, so a library copied by hand to a
+differently named drive stops linking to the original. A Windows drive root has
+no name to compare. Without a location, each title links to a bare
+`shareddocuments://`, which switches to Files, and the page says to follow the
+folders under the title. In that case an urgent tile jumps to its guide's
+folders inside the PDF, and the filename stands alone above them.
+
+In the iOS 27.2 simulator on 2026-11-26, the start page filled one iPhone 17
+screen. A search for `splint` reported 3 matches and jumped to the chapter
+lists that carry the word, with the yellow mark under Preview's top bar in 2 of
+2 matches looked at. The **Stop severe bleeding** tile showed the prompt and
+**Open** opened chapter 10 of *Where There Is No Doctor*. Preview's sidebar
+showed page thumbnails, not the PDF's outline. A title that is not a PDF links
+to its folder in Files, a form the phone test covered only for the drive's top
+folder.
 [Preview search](https://support.apple.com/guide/iphone/iph7a0cdad0c/ios)
 · [PDFKit remote-open delegate](https://developer.apple.com/documentation/pdfkit/pdfviewdelegate/pdfviewopenpdf%28_%3Aforremotegotoaction%3A%29)
 · [Files search scopes](https://support.apple.com/guide/iphone/iphe4bff8827/ios)

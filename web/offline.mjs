@@ -63,6 +63,35 @@ function grouped(rows, metadata, category) {
   return output.sort((a, b) => first(a) - first(b) || importance(a) - importance(b) || order(a, b));
 }
 
+// Each urgent task with every guide present on the drive, in order of preference.
+function phoneTasks(tasks, documents, metadata) {
+  const rows = new Map(documents.map(row => [row.id, row]));
+  return tasks.map(([task, keywords, candidates]) => {
+    const guides = [], lookups = [];
+    for (const [id, fragment = "", hint = "", entries = []] of candidates) {
+      const names = entries.map(([name]) => name);
+      lookups.push(...names);
+      const row = rows.get(id);
+      if (!row) continue;
+      guides.push({title: row.title, short: metadata[id]?.book?.chapter || row.title, path: row.path, format: row.format,
+        page: /^#page=(\d+)$/.exec(fragment)?.[1] || "", hint, articles: names});
+    }
+    return {task, keywords, guides, lookups};
+  });
+}
+
+// One catalog entry: a document, or a book whose chapters are separate files.
+function phoneRow(row, metadata) {
+  const entry = metadata[row.id] || {};
+  const topics = (row.topics || []).map(([, title]) => title);
+  const chapters = (row.chapters || []).map(chapter => ({title: chapter.title, path: chapter.path, format: chapter.format,
+    terms: metadata[chapter.id]?.terms || []}));
+  const book = chapters.length > 0;
+  return {title: row.title, path: row.path, format: row.format || "", kind: row.kind, bytes: row.bytes,
+    publisher: (book ? row.publisher : entry.publisher) || "", summary: book ? "" : entry.summary || "", topics, chapters,
+    terms: book ? [] : entry.terms || [], labels: book ? topics : [...new Set([...(entry.labels || []), ...topics])]};
+}
+
 export function startPage(assets = [], missing = []) {
   const links = assets.map(asset => {
     const path = asset.parts[0].path;
@@ -104,7 +133,7 @@ function reportBody(missing, keptInParts) {
     "<li>" + escape(row.title) + " · " + row.parts + " parts</li>").join("") + "</ul>" : "");
 }
 
-async function readerFiles(config, inventory, phone, missing, keptInParts, indexed, shared, syncedAt, iphone) {
+async function readerFiles(config, inventory, phone, missing, keptInParts, indexed, shared, syncedAt, iphone, articles = []) {
   const {layout, css, assets: metadata, categories} = config;
   const files = inventory.map(asset => {
     const path = asset.parts[0].path;
@@ -155,7 +184,8 @@ async function readerFiles(config, inventory, phone, missing, keptInParts, index
     home.categories.push({...category, count: rows.length});
     pages.set("LIBRARY/INDEX/c-" + id + ".js", data(id, rows));
     if (!rows.length) continue;
-    catalogGroups.push({name, rows: members.sort(order)});
+    catalogGroups.push({id, name, blurb: category.blurb, unit: category.unit, color: category.light, icon: category.icon,
+      rows: rows.map(row => phoneRow(row, metadata))});
     const count = amount(rows.length, category.unit);
     const icon = category.icon ? render(layout.static_icon, {icon: escape(category.icon)}) : "";
     shelves.push(render(layout.static_section, {id, icon, name: escape(name), count, blurb: escape(category.blurb),
@@ -164,7 +194,8 @@ async function readerFiles(config, inventory, phone, missing, keptInParts, index
           render(layout.static_chapter, {title: link(chapter.href, chapter.title),
             file: filename(chapter.path)})).join("")}) : "")).join("")}));
   }
-  pages.set(phoneCatalogName, await phoneCatalog(catalogGroups, layout.phone_catalog, iphone?.path));
+  pages.set(phoneCatalogName, await phoneCatalog(catalogGroups, layout.phone_catalog, iphone?.path,
+    phoneTasks(layout.tasks, documents, metadata), articles));
   if (shelves.length) staticSections.push(render(layout.static_shelves, {shelves: shelves.join("")}));
   if (documents.some(row => row.format === "zim")) {
     const devices = ["iphone", "android"].map(device => {
@@ -224,8 +255,8 @@ async function readerFiles(config, inventory, phone, missing, keptInParts, index
 // Keep the iPhone location a previous build saved; see savedPhoneDrive. name: the picked folder's name.
 async function previousPhoneDrive(drive, name) {
   try {
-    const file = await (await fileHandle(drive, "LIBRARY/BUILD_INFO.json")).getFile();
-    return file.size <= 4 * 2 ** 20 ? savedPhoneDrive(JSON.parse(await file.text()).iphone_drive, name) : null;
+    const file = await (await fileHandle(drive, "LIBRARY/.owl/iphone-drive.json")).getFile();
+    return file.size <= 4096 ? savedPhoneDrive(JSON.parse(await file.text()), name) : null;
   } catch {
     return null;
   }
@@ -250,7 +281,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
   const {verify} = navigation;
   const iphone = await previousPhoneDrive(drive, driveName);
   const {reader, phone} = compact ? {} : navigation;
-  const phoneVolumes = [], phoneChecksums = [], supportMissing = [...unavailableSupport];
+  const phoneVolumes = [], phoneArticles = [], phoneChecksums = [], supportMissing = [...unavailableSupport];
   let phoneBytes = 0;
   const phoneConfig = navigation.phone;
   if (phoneConfig && completed.some(asset => asset.id === phoneConfig.source_id && asset.sha256 === phoneConfig.source_sha256)) {
@@ -265,6 +296,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
         const path = "LIBRARY/" + phone.destination + volume.file;
         phoneBytes += volume.bytes;
         phoneChecksums.push(await transfer(output, phone.base, volume.file, volume, fetchFile, signal, network, path, 8_000_000));
+        phoneArticles.push(...(volume.articles || []).map(article => ({title: article.title, volume: volume.title, path})));
         phoneVolumes.push({path, id, title: "WikiMed: " + volume.title,
           href: locator(path), kind: "PDF", format: "pdf", bytes: volume.bytes});
       } catch (error) {
@@ -310,7 +342,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
   let pages;
   if (reader) {
     try { pages = await readerFiles(reader, assets, phoneVolumes, reportOmissions, keptInParts, indexed, shared, syncedAt,
-      iphone); }
+      iphone, phoneArticles); }
     catch (error) {
       const issue = {kind: "reader", title: "Full reader", reason: error.message};
       supportMissing.push(issue);
@@ -347,7 +379,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
     selected_count: selectedCount, missing: omissions, kept_in_parts: keptInParts,
     content_complete: !missing.length && assets.length > 0,
     support_complete: supportMissing.length === 0, support_missing: supportMissing,
-    layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}, ...(iphone && {iphone_drive: iphone})}, null, 2) + "\n");
+    layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}}, null, 2) + "\n");
 
   const checksums = [...assets.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path)),
     ...indexed.checksums, ...sharedChecksums, ...phoneChecksums];
