@@ -100,7 +100,7 @@ def _owned(job_dir: Path) -> tuple[Path, dict]:
 
 def _dependencies() -> dict:
     packages = {}
-    for name in ("PyYAML", "pypdf", "cryptography", "libzim", "PyMuPDF"):
+    for name in ("PyYAML", "pypdf", "cryptography", "libzim", "PyMuPDF", "reportlab"):
         try:
             packages[name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
@@ -452,7 +452,11 @@ def logs_job(job_dir: Path, *, tail_bytes=TAIL_BYTES, tail_lines=40) -> str:
 
 
 def _verify_recipe(job_dir: Path, recipe: dict):
-    if recipe.get("schema_version") != SCHEMA or recipe["dependencies"] != _dependencies():
+    dependencies = _dependencies()
+    # A frozen pre-PDF builder can resume with its original dependency receipt.
+    if "reportlab" not in recipe["dependencies"]["packages"] and "src/owl/phone_catalog.py" not in recipe["snapshot_files"]:
+        dependencies["packages"].pop("reportlab")
+    if recipe.get("schema_version") != SCHEMA or recipe["dependencies"] != dependencies:
         raise SafetyError("Captured job Python/dependencies changed; restore them or create a new job")
     snapshot = job_dir / "snapshot"
     for relative, digest in recipe["snapshot_files"].items():

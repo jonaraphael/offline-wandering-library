@@ -18,7 +18,7 @@ class DeviceTestKitTests(unittest.TestCase):
             start = (drive / "START_HERE.html").read_text(encoding="utf-8")
             self.assertIn('id="reader-view"', start)
             self.assertIn("split-test.zimaa", start)
-            self.assertIn("ZIM ›", start)
+            self.assertIn('LIBRARY › ZIM</span><span class="filename">split-test.zimaa', start)
             library = drive / "LIBRARY"
             search = (library / "SEARCH.html").read_text(encoding="utf-8")
             self.assertIn("START_HERE.html#/search", search)

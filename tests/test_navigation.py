@@ -1,17 +1,22 @@
 """Exercise the generated reader and its complete static layer."""
 from html.parser import HTMLParser
+from io import BytesIO
+
+from pypdf import PdfReader
 from hashlib import sha256
 import json
+import os
 from pathlib import Path
 import re
 import tempfile
 import unittest
 
 from owl.atlas_build import validate_links
-from owl.layout import managed_path
+from owl.layout import PHONE_CATALOG, managed_path
 from owl.navigation import GENERATED_PATHS, generate_navigation
 from owl.offline_layout import layout
 from owl.safety import SafetyError
+from owl.search_shards import output_bytes
 
 
 def reader_data(text, name):
@@ -35,7 +40,7 @@ class StaticHTML(HTMLParser):
         self.text = []
         self.interactive = []
         self.folded = []
-        self.depth = 0
+        self.disclosures = []
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
@@ -44,17 +49,17 @@ class StaticHTML(HTMLParser):
         if self.static and tag in {'input', 'button', 'nav'}:
             self.interactive.append(tag)
         if self.static and tag == 'details':
-            self.depth += 1
+            self.disclosures.append(dict(attrs).get("class"))
 
     def handle_endtag(self, tag):
         if tag == 'main':
             self.static = False
         if self.static and tag == 'details':
-            self.depth -= 1
+            self.disclosures.pop()
 
     def handle_data(self, data):
         if self.static:
-            (self.folded if self.depth else self.text).append(data)
+            (self.folded if None in self.disclosures else self.text).append(data)
 
 
 class NavigationTests(unittest.TestCase):
@@ -84,7 +89,8 @@ class NavigationTests(unittest.TestCase):
         content = ''.join(reader.text)
         self.assertFalse(reader.interactive)
         self.assertIn('How to open a book', content)
-        self.assertIn('Make drinking water saferWater & <Guide>LIBRARY › CRITICAL › WATER › water #1.pdf', content)
+        self.assertIn('Make drinking water saferWater & <Guide>LIBRARY › CRITICAL › WATER', content)
+        self.assertIn('<span class="filename">water #1.pdf</span>', pages['START_HERE.html'])
         self.assertIn('<a href="LIBRARY/CRITICAL/WATER/water%20%231.pdf">Make drinking water safer</a>', pages['START_HERE.html'])
         self.assertEqual(content.count('Field Guide'), 1)
         self.assertIn('Book, 3 chaptersLIBRARY › BOOKS › GUIDE', content)
@@ -101,6 +107,87 @@ class NavigationTests(unittest.TestCase):
         self.assertIn('href="CRITICAL/WATER/water%20%231.pdf"', pages['INVENTORY.html'])
         validate_links(self.target, {**pages, 'INVENTORY.json': ''})
 
+    def test_phone_catalog_links_only_installed_pdfs_at_their_final_locations(self):
+        name = "water #1 (2026).pdf"
+        water = self.asset("water", "Water & sanitation", "CRITICAL/WATER/" + name)
+        note = self.asset("note", "Water notes", "BOOKS/water.txt", format="txt")
+        pages = self.generate([water, note], unresolved=[{"id": "missing", "title": "Absent guide"}])
+        pdf = PdfReader(BytesIO(pages[PHONE_CATALOG]), strict=True)
+        text = "\n".join(page.extract_text() for page in pdf.pages)
+        self.assertIn(name, text)
+        self.assertIn("LIBRARY › CRITICAL › WATER", text)
+        self.assertIn("water.txt", text)
+        self.assertNotIn("Absent guide", text)
+        category = pdf.pages[0].annotations[0].get_object()["/Dest"][0]
+        self.assertEqual(category, pdf.pages[1].indirect_reference)
+        actions = [ref.get_object()["/A"] for page in pdf.pages for ref in page.annotations or []
+                   if "/A" in ref.get_object()]
+        # Without the drive's volume UUID, a title switches to Files and the intro says to follow the folders.
+        self.assertEqual([(action["/S"], action["/URI"]) for action in actions], [("/URI", "shareddocuments://")])
+        self.assertIn("to switch to Files", text)
+        # With the UUID, a title opens the book through Files on an iPhone.
+        volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615"
+        linked = generate_navigation(self.target, [water, note], {"assets": [water, note]}, {}, write=False, drive=volume)
+        linked_pdf = PdfReader(BytesIO(linked[PHONE_CATALOG]))
+        links = [ref.get_object()["/A"] for page in linked_pdf.pages for ref in page.annotations or []
+                 if "/A" in ref.get_object()]
+        self.assertEqual([(link["/S"], link["/URI"]) for link in links], [("/URI",
+            "shareddocuments:///private/var/mobile/Library/LiveFiles/com.apple.filesystems.userfsd/" + volume +
+            "/LIBRARY/CRITICAL/WATER/water%20%231%20%282026%29.pdf?open")])
+        self.assertIn("to read the book", linked_pdf.pages[0].extract_text())
+        empty = PdfReader(BytesIO(self.generate([])[PHONE_CATALOG]))
+        self.assertEqual(len(empty.pages), 1)
+        self.assertFalse(empty.pages[0].annotations)
+
+    @unittest.skipIf(os.name == "nt", "POSIX mount layout")
+    def test_drive_path_uses_the_volume_uuid_that_macos_reports(self):
+        import plistlib
+        import subprocess
+        from unittest.mock import patch
+        from owl.phone_catalog import drive_path
+        volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615"
+        mounts = {"/", "/Volumes/KINGSTON", "/media/ana/OWL DRIVE"}
+        calls = []
+
+        def diskutil(command, **options):
+            calls.append(command)
+            if command[-1] != "/Volumes/KINGSTON":
+                raise subprocess.CalledProcessError(1, command)
+            return subprocess.CompletedProcess(command, 0, plistlib.dumps({"VolumeUUID": volume}), b"")
+
+        with patch("owl.phone_catalog.os.path.ismount", side_effect=lambda path: Path(path).as_posix() in mounts), \
+                patch.object(Path, "resolve", lambda self: self), \
+                patch("owl.phone_catalog.subprocess.run", side_effect=diskutil):
+            with patch("owl.phone_catalog.sys.platform", "darwin"):
+                self.assertEqual(drive_path("/Volumes/KINGSTON"), volume)
+                self.assertEqual(drive_path("/Volumes/KINGSTON/My library"), volume + "/My library")
+                self.assertIsNone(drive_path("/Users/ana/Downloads/library"))
+                mounts.add("/Volumes/BROKEN")
+                self.assertIsNone(drive_path("/Volumes/BROKEN/library"))
+            # Linux and Windows do not report the UUID an iPhone uses.
+            with patch("owl.phone_catalog.sys.platform", "linux"):
+                self.assertIsNone(drive_path("/media/ana/OWL DRIVE"))
+        self.assertEqual(calls, [["diskutil", "info", "-plist", "/Volumes/KINGSTON"]] * 2 +
+                         [["diskutil", "info", "-plist", "/Volumes/BROKEN"]])
+
+    def test_phone_drive_prefers_the_live_uuid_and_keeps_a_saved_one_for_the_same_folder(self):
+        from unittest.mock import patch
+        from owl.phone_catalog import phone_drive
+        volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615"
+        saved = {"path": volume, "folder": "KINGSTON"}
+        with patch("owl.phone_catalog.drive_path", return_value="0D0C0B0A-0000-3000-8000-000000000000"):
+            self.assertEqual(phone_drive("/Volumes/KINGSTON", saved),
+                             {"path": "0D0C0B0A-0000-3000-8000-000000000000", "folder": "KINGSTON"})
+        with patch("owl.phone_catalog.drive_path", return_value=None), \
+                patch.object(Path, "resolve", lambda self: self):
+            self.assertEqual(phone_drive("/media/ana/KINGSTON", saved), saved)
+            self.assertEqual(phone_drive("/", {"path": volume + "/My library", "folder": "My library"}),
+                             {"path": volume + "/My library", "folder": "My library"})
+            self.assertIsNone(phone_drive("/media/ana/OTHER", saved))
+            self.assertIsNone(phone_drive("/media/ana/KINGSTON", {"path": "KINGSTON", "folder": "KINGSTON"}))
+            self.assertIsNone(phone_drive("/media/ana/KINGSTON", {"path": volume + "/../x", "folder": "KINGSTON"}))
+            self.assertIsNone(phone_drive("/media/ana/KINGSTON", None))
+
     def test_emergency_uses_article_route_or_reports_the_missing_file(self):
         wiki = self.asset('wikimed_en', 'Medical encyclopedia', 'ZIM/medicine.zim', format='zim')
         pages = self.generate([wiki])
@@ -110,7 +197,7 @@ class NavigationTests(unittest.TestCase):
         self.assertEqual(task['format'], 'zim')
         self.assertIn('Look up Burn in Kiwix', pages['START_HERE.html'])
         content = ''.join(StaticHTML(pages['START_HERE.html']).text)
-        self.assertIn('Care for burnsMedical encyclopedia · Look up Burn in KiwixLIBRARY › ZIM › medicine.zim', content)
+        self.assertIn('Care for burnsMedical encyclopedia · Look up Burn in KiwixLIBRARY › ZIMmedicine.zim', content)
         for device in ('iPhone', 'Android phone'):
             self.assertIn(device, content)
         # Computers read encyclopedias in the page; the static page sends them there.
@@ -120,17 +207,15 @@ class NavigationTests(unittest.TestCase):
         self.assertTrue(all('path' not in task for task in
                             reader_data(script(self.generate([]), 'home.js'), 'home')['tasks']))
 
-    def test_urgent_row_names_the_page_and_tiles_link_to_their_category(self):
+    def test_urgent_row_names_the_page_and_categories_expand_in_place(self):
         aid = self.asset('hesperian_en_wtnd_2025_10', 'First aid chapter', 'CRITICAL/MEDICAL/aid.pdf')
         start = self.generate([aid])['START_HERE.html']
         self.assertIn('<a href="LIBRARY/CRITICAL/MEDICAL/aid.pdf#page=6">Stop severe bleeding</a></b>'
                       '<small>First aid chapter · page 6</small>', start)
         self.assertIn('<a href="LIBRARY/CRITICAL/MEDICAL/aid.pdf">Care for burns</a></b><small>First aid chapter</small>', start)
         self.assertIn('<b>Make drinking water safer</b><small>No guide on this drive.</small></div>', start)
-        tile = re.search(r'<a class="tile" href="#(c-[a-z]+)"', start)
-        self.assertIsNotNone(tile)
-        self.assertIn(f'<section class="shelf" id="{tile[1]}"', start)
-        self.assertIn('id="top"', start)
+        self.assertRegex(start, r'<details class="shelf"[^>]*><summary>.*?Health<small>1 guide</small>')
+        self.assertNotRegex(start, r'href="#(?:c-|top)')
 
     def test_inventory_reports_missing_and_software_without_counting_software_as_documents(self):
         app = self.asset('kiwix_android', 'Kiwix', 'SOFTWARE/ANDROID/kiwix.apk', format='apk')
@@ -150,7 +235,8 @@ class NavigationTests(unittest.TestCase):
         expected = self.generate(assets)
         for _ in range(2):
             written = generate_navigation(self.target, assets, {'assets': assets}, {})
-            self.assertEqual(expected, {key: managed_path(self.target, key).read_text(encoding='utf-8') for key in written})
+            self.assertEqual({key: output_bytes(value) for key, value in expected.items()},
+                             {key: managed_path(self.target, key).read_bytes() for key in written})
         self.assertEqual(self.target.joinpath('personal.txt').read_text(), 'Keep this')
 
     def test_entry_points_to_the_hash_of_the_generation_and_publishes_last(self):

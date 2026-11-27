@@ -1,4 +1,7 @@
-Open START_HERE.html beside the LIBRARY folder. Keep them together.
+Open START_HERE.html in a browser. On iPhone, open START_HERE_FOR_IPHONES.pdf
+in Preview from Files > Browse > your drive. Keep both guides beside LIBRARY.
+Use Preview’s Search to find a title or filename. Tap a blue title, then Open.
+If the book does not open, find it in Files using the listed folders.
 
 The Library page lists titles and their locations even when search and links
 are unavailable. In that case, read the folders listed under the title,

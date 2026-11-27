@@ -1,7 +1,7 @@
 # Building, carrying, and maintaining an OWL drive
 
-A fresh drive has `START_HERE.html` beside a single `LIBRARY` folder. Open the
-start page first and keep those two items together. All drive-target commands
+A full reader build places `START_HERE.html` and `START_HERE_FOR_IPHONES.pdf` beside
+the `LIBRARY` folder. Keep all three together. All drive-target commands
 below take this outer directory; the verifier, inventories, indexes, content and
 private resume state live inside `LIBRARY`. Catalog destinations remain relative
 to `LIBRARY`, while the global checksum manifest records outer-directory paths.
@@ -197,7 +197,7 @@ Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs reta
 
 Python's reading collection contains 37 original publisher PDFs for Python 3.14.0, dated October 7, 2025. The newer September 2026 EPUB is retained separately as a supporting source package; it is not the source of those older PDFs. See [PDF reading editions](pdf-editions.md) for exact edition and conversion details.
 
-On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and follow the folder trail printed under each title in the start page. Search covers titles, reviewed sections, topics and indexed text. Open the original source to read a scanned page or inspect an illustration. A diagram or scanned page can be useful even when its contents are absent from search results.
+On iPhone or iPad, select the drive in Files and open **START_HERE_FOR_IPHONES.pdf** in Preview. Its magnifying glass searches titles and filenames in the catalog. Tap a blue title, then **Open**. On a drive the Python builder wrote on a Mac, Files opens that PDF from the drive in Preview. That builder saves the drive ID in `LIBRARY/BUILD_INFO.json`, and later browser Syncs reuse it while the drive keeps its name. On a drive the Python builder never wrote on a Mac, titles switch to Files instead, because the browser cannot read the drive ID that iOS puts in the link. If a book does not open, browse the printed folders in Files. In the HTML preview, expand a category and touch and hold the isolated filename to copy it. To search Files, paste the filename and select the drive’s name below the search field. Search covers titles, reviewed sections, topics and indexed text. Open the original source to read a scanned page or inspect an illustration. A diagram or scanned page can be useful even when its contents are absent from search results.
 
 ## Add the topic atlas after downloading
 
