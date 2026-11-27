@@ -20,7 +20,12 @@ test("resumed archives still move to a faster relay route", async () => {
   const fetchFile = async (url, options) => {
     const start = Number(/^bytes=(\d+)-/.exec(options.headers.Range)[1]);
     seen.push([url, start / PIECE]);
-    if (url === direct) await new Promise(resolve => setTimeout(resolve, 120));
+    // The mirror answers after the sample's 3 s cutoff, so a busy test machine
+    // cannot slow the relay probe enough to make the mirror look as fast.
+    if (url === direct) await new Promise((resolve, reject) => {
+      const timer = setTimeout(resolve, 4_000);
+      options.signal.addEventListener("abort", () => { clearTimeout(timer); reject(options.signal.reason); }, {once: true});
+    });
     return new Response(body.subarray(start, start + PIECE), {status: 206,
       headers: {"Content-Range": `bytes ${start}-${start + PIECE - 1}/${body.length}`}});
   };
